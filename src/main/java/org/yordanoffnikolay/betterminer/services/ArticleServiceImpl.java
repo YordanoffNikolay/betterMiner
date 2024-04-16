@@ -76,7 +76,7 @@ public class ArticleServiceImpl implements ArticleService {
         for (int i = 0; i < articles.size(); i++) {
             Article article = articles.get(i);
             for (BadWords badWord : badWords) {
-                String regex = "\\b" + badWord.getWord() + "\\b";
+                String regex = "\\b" + badWord.getWord() + "s?" + "\\b";
                 String text = article.getTitle();
                 Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
                 Matcher matcher = pattern.matcher(text);

@@ -86,7 +86,7 @@ public class ArticleServiceImpl implements ArticleService {
                     break;
                 }
                 String text2 = article.getAbstractText();
-                String regex2 = "\\b" + badWord.getWord() + "\\b";
+                String regex2 = "\\b" + badWord.getWord() + "s?" + "\\b";
                 Pattern pattern2 = Pattern.compile(regex2, Pattern.CASE_INSENSITIVE);
                 Matcher matcher2 = pattern2.matcher(text2);
                 if (matcher2.find()) {

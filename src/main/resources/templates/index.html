@@ -1,21 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>DigDigDigDig</title>
 </head>
 <body>
     <h1>Enter search dates here:</h1>
-    <form action="/search" method="post">
-        <label for="startDate">From Date:</label>
-        <input type="date" id="startDate" name="startDate">
-        <br>
-        <br>
-        <label for="endDate">To Date:</label>
-        <input type="date" id="endDate" name="endDate">
-        <br>
-        <br>
-        <input type="submit" value="Search">
+
+    <form method="post" th:action="@{/results}" th:object="${dateRange}">
+        <div>
+            <label>Start Date:</label>
+            <input id="startYear" placeholder="YYYY" th:field="*{startYear}" type="text"/>
+            <input id="startMonth" placeholder="MM" th:field="*{startMonth}" type="text"/>
+            <input id="startDay" placeholder="DD" th:field="*{startDay}" type="text"/>
+        </div>
+
+        <div>
+            <label>End Date:</label>
+            <input id="endYear" placeholder="YYYY" th:field="*{endYear}" type="text"/>
+            <input id="endMonth" placeholder="MM" th:field="*{endMonth}" type="text"/>
+            <input id="endDay" placeholder="DD" th:field="*{endDay}" type="text"/>
+        </div>
     </form>
+
+    <button type="submit">Search</button>
+
+    <section class="footer">
+        <p>Copyright &copy; 2024. All Rights Reserved.</p>
+    </section>
 </body>
 </html>

@@ -2,21 +2,22 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link href="../static/css/styles.css" rel="stylesheet" th:href="@{/css/styles.css}"/>
     <title>betterMiner</title>
 </head>
 <body>
     <h1>Enter search dates here:</h1>
 
     <form method="post" th:action="@{/results}" th:object="${dateRange}">
+        <label>Start Date:</label>
         <div>
-            <label>Start Date:</label>
             <input id="startYear" placeholder="YYYY" th:field="*{startYear}" type="text"/>
             <input id="startMonth" placeholder="MM" th:field="*{startMonth}" type="text"/>
             <input id="startDay" placeholder="DD" th:field="*{startDay}" type="text"/>
         </div>
 
+        <label>End Date:</label>
         <div>
-            <label>End Date:</label>
             <input id="endYear" placeholder="YYYY" th:field="*{endYear}" type="text"/>
             <input id="endMonth" placeholder="MM" th:field="*{endMonth}" type="text"/>
             <input id="endDay" placeholder="DD" th:field="*{endDay}" type="text"/>

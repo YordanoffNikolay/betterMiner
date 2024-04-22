@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>DigDigDigDig</title>
+    <title>betterMiner</title>
 </head>
 <body>
     <h1>Enter search dates here:</h1>
@@ -21,9 +21,9 @@
             <input id="endMonth" placeholder="MM" th:field="*{endMonth}" type="text"/>
             <input id="endDay" placeholder="DD" th:field="*{endDay}" type="text"/>
         </div>
+        <button th:action="@{/results}" type="submit">Search</button>
     </form>
 
-    <button type="submit">Search</button>
 
     <section class="footer">
         <p>Copyright &copy; 2024. All Rights Reserved.</p>

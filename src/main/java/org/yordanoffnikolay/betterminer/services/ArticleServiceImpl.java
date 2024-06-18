@@ -46,6 +46,8 @@ public class ArticleServiceImpl implements ArticleService {
         wipeOutExistingData();
         List<Article> articles = new LinkedList<>();
         List<String> innList = generateInnList();
+//        List<String> innList = new LinkedList<>();
+//        innList.add("Candesartan hydrochlorothiazide");
         List<Query> pubmedQueries = generateQueries(innList, dateRange);
         extractArticleDetails(pubmedQueries, articles, innList);
         fixMismatches();
@@ -75,6 +77,7 @@ public class ArticleServiceImpl implements ArticleService {
         List<BadWords> badWords = badWordsRepository.findAll();
         for (int i = 0; i < articles.size(); i++) {
             Article article = articles.get(i);
+            if (article.getTitle().contains("case")) continue;
             for (BadWords badWord : badWords) {
                 String regex = "\\b" + badWord.getWord() + "s?" + "\\b";
                 String text = article.getTitle();
@@ -185,7 +188,8 @@ public class ArticleServiceImpl implements ArticleService {
             Query query = new Query();
             StringBuilder sb = new StringBuilder();
             sb.append("https://pubmed.ncbi.nlm.nih.gov/?term=%28");
-            String replaceWhitespaceWithPlus = innList.get(i).replaceAll(" ", "%2B");
+//            String replaceWhitespaceWithPlus = innList.get(i).replaceAll(" ", "%2B");
+            String replaceWhitespaceWithPlus = innList.get(i).replaceAll(" ", "+");
             sb.append(replaceWhitespaceWithPlus.toLowerCase());
             sb.append("%29+AND+%28%28%22");
             sb.append(dateRange.getStartYear());

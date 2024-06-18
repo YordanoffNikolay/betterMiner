@@ -48,7 +48,6 @@ public class FileServiceImpl implements FileService {
                             dateRange.getEndDay(), dateRange.getEndMonth(), dateRange.getEndYear()));
                     r11.setFontSize(12);
                     r11.setItalic(true);
-                    addBlankRow(doc);
                 }
 
                 generateSearchTermsParagraph(inn, doc);
@@ -56,6 +55,8 @@ public class FileServiceImpl implements FileService {
 
                 if (articlesByInn.isEmpty()) {
                     addNoResultsPicture(doc);
+                    addBlankRow(doc);
+                    addBlankRow(doc);
                     continue;
                 }
                 addBlankRow(doc);
@@ -80,7 +81,7 @@ public class FileServiceImpl implements FileService {
                 addBlankRow(doc);
             }
 
-            doc.createParagraph().createRun().setText("--------------------------------------------End of the document--------------------------------------------");
+            doc.createParagraph().createRun().setText("-------------------------------End of the document-----------------------------");
             try (OutputStream out = new FileOutputStream(savePath
                     + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "-PubMed.docx")) {
                 doc.write(out);
@@ -129,11 +130,20 @@ public class FileServiceImpl implements FileService {
         XWPFParagraph p8 = doc.createParagraph();
         XWPFRun r8 = p8.createRun();
         r8.setText("Clipped from: ");
-        String st =queryRepository.findQueriesByInnName(inn).getClientUrl().replaceAll(" ", "+");
+        String st = "";
+        if (articleRepository.findArticlesByInnName(inn).size() == 1) {
+            st = articleRepository.findArticlesByInnName(inn).get(0).getUrl();
+        } else {
+            st = queryRepository.findQueriesByInnName(inn).getClientUrl().replaceAll(" ", "+");
+        }
         XWPFHyperlinkRun hyperlink = p8.insertNewHyperlinkRun(1, st);
         hyperlink.setUnderline(UnderlinePatterns.SINGLE);
         hyperlink.setColor("0000ff");
-        hyperlink.setText(queryRepository.findQueriesByInnName(inn).getClientUrl());
+        if (articleRepository.findArticlesByInnName(inn).size() == 1) {
+            hyperlink.setText(articleRepository.findArticlesByInnName(inn).get(0).getUrl());
+        } else {
+            hyperlink.setText(queryRepository.findQueriesByInnName(inn).getClientUrl());
+        }
         addBlankRow(doc);
     }
 

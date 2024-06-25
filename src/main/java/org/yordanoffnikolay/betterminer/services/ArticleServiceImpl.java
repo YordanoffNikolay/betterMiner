@@ -75,8 +75,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     public void checkForUnwantedWords(List<Article> articles) {
         List<BadWords> badWords = badWordsRepository.findAll();
-        for (int i = 0; i < articles.size(); i++) {
-            Article article = articles.get(i);
+        for (Article article : articles) {
             if (article.getTitle().contains("case")) continue;
             for (BadWords badWord : badWords) {
                 String regex = "\\b" + badWord.getWord() + "s?" + "\\b";
@@ -132,7 +131,8 @@ public class ArticleServiceImpl implements ArticleService {
                 }
                 Elements elements = document.getElementsByClass("abstract-content selected");
                 for (Element element : elements) {
-                    String text = Objects.requireNonNull(element.getElementById("eng-abstract")).text();
+//                    String text = Objects.requireNonNull(element.getElementById("eng-abstract")).text();
+                    String text = Objects.requireNonNull(element.getElementsByClass("abstract-content selected")).text();
                     a.setAbstractText(text);
                 }
                 articleRepository.save(a);

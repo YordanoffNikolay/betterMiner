@@ -81,6 +81,12 @@ public class FileServiceImpl implements FileService {
                 addBlankRow(doc);
             }
 
+            for (XWPFParagraph paragraph : doc.getParagraphs()) {
+                for (XWPFRun run : paragraph.getRuns()) {
+                    run.setFontFamily("Verdana");
+                }
+            }
+
             doc.createParagraph().createRun().setText("-------------------------------End of the document-----------------------------");
             try (OutputStream out = new FileOutputStream(savePath
                     + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "-PubMed.docx")) {
@@ -102,7 +108,7 @@ public class FileServiceImpl implements FileService {
             XWPFRun r10 = p10.createRun();
             if (word.equalsIgnoreCase(currInn)) {
                 r10.setBold(true);
-                r10.setFontSize(13);
+                r10.setFontSize(12);
                 r10.setText(word + " ");
             } else {
                 r10.setText(word + " ");
@@ -118,7 +124,7 @@ public class FileServiceImpl implements FileService {
         XWPFHyperlinkRun hyperlink2 = p9.createHyperlinkRun(articlesByInn.get(i).getUrl());
             if (titleArray[j].equalsIgnoreCase(currInn)) {
                 hyperlink2.setBold(true);
-                hyperlink2.setFontSize(13);
+                hyperlink2.setFontSize(12);
             }
             hyperlink2.setUnderline(UnderlinePatterns.SINGLE);
             hyperlink2.setColor("0000ff");
@@ -170,7 +176,7 @@ public class FileServiceImpl implements FileService {
         p4.setVerticalAlignment(TextAlignment.TOP);
         XWPFRun r4 = p4.createRun();
         r4.setText("Search terms: ");
-        r4.setFontSize(13);
+        r4.setFontSize(12);
         XWPFRun r5 = p4.createRun();
         r5.setText(queryRepository.findQueriesByInnName(inn).getServerQuery());
         r5.setFontSize(12);
@@ -183,7 +189,7 @@ public class FileServiceImpl implements FileService {
         XWPFRun r3 = p3.createRun();
         r3.setText(inn + " search");
         List<Article> articlesByInn = articleRepository.findArticlesByInnName(inn);
-        r3.setFontSize(14);
+        r3.setFontSize(12);
         r3.setBold(true);
         return articlesByInn;
     }
